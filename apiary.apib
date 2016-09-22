@@ -1,75 +1,13 @@
 FORMAT: 1A
-HOST: http://api/
+HOST: http://polls.apiblueprint.org/
 
-# Document Management System (API)
+# dms
 
-The system manages documents, users and user roles.
+Polls is a simple API allowing consumers to view polls and vote in them.
 
-## Users Endpoints [/users]
+## Questions Collection [/questions]
 
-### Gets all users [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                  "_id": 1,
-                  "password": "password",
-                  "email": "email@gmail.com",
-                  "name": {
-                          "first": "First Name",
-                          "last": "Last Name"
-                  },
-            }
-        ]
-
-### Creates a new user. [POST]
-
-+ Request (application/json)
-
-        {
-            "username": “abc”,
-            "name": {
-                "first": “John”,
-                "last": “Snow”
-            },
-            "email": “a@b.c”,
-            "password": “pass”
-        }
-
-+ Response 201 (application/json)
-
-    + Body
-
-            {
-                "username": “abc”,
-                "name": {
-                    "first": “John”,
-                    "last": “Snow”
-                },  
-                "email": “a@b.c”,
-                "password": “pass”,
-                "role": "user"
-            }
-
-## User [/user/{id}]
-
-+ Parameters
-    + id - A path variable that is required for a valid URL
-
-### Find user. [GET]
-+ Response 200 (application/json)
-
-### Update user attributes. [PUT]
-+ Response 201 (application/json)
-
-### Delete user. [DELETE]
-+ Response 410 (application/json)
-
-
-## Documents Collection [/documents]
-
-### Gets all documents. [GET]
+### List All Questions [GET]
 
 + Response 200 (application/json)
 
@@ -94,160 +32,11 @@ The system manages documents, users and user roles.
                 ]
             }
         ]
+### Create a New Question [POST]
 
-### Creates a new document instance. [POST]
-+ Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
-
-## Documents [/documents/{id}]
-
-+ Parameters
-    + id - A path variable that is required for a valid URL
-
-### Find document. [GET]
-+ Response 200 (application/json)
-
-### Update document attributes. [PUT]
-+ Response 201 (application/json)
-
-### Delete document. [DELETE]
-+ Response 410 (application/json)
-
-## User Documents [/user/{id}/documents]
-
-+ Parameters
-    + id - A path variable that is required for a valid URL
-
-### Find all documents belonging to the user. [GET]
-+ Response 200 (application/json)
-
-## Roles Collection [/roles]
-
-### Returns all roles. [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New role [POST]
-+ Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
-
-## Roles [/roles/{id}]
-
-+ Parameters
-    + id - A path variable that is required for a valid URL
-
-### Users with a role. [GET]
-+ Response 200 (application/json)
-
-### Update user role. [PUT]
-+ Response 201 (application/json)
-
-### Delete role. [DELETE]
-+ Response 410 (application/json)
-
-## Search Collection [/documents/{?limit,query}]
-
-+ Parameters
-    + limit (optional) - Another query variable
-    + query (optional) - Another query variable
-
-### Search for documents with query in name || Get documents with limit. [GET]
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
 + Request (application/json)
 
         {
