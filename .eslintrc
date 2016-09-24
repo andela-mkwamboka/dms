@@ -7,5 +7,6 @@
   "rules": {
     no-console: 0,
     no-usless-escape: 0,
+    no-path-concat: 0,
   }
 }
