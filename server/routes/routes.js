@@ -1,28 +1,16 @@
 // Dependencies
 const router = require('express').Router();
 
-// Middleware
-const middleware = require('../middleware/middleware');
-
-// Controllers
-const users = require('../controllers/usersCtrl');
-
-// Config
-
-// Middleware
-
+// routes
+const users = require('./userRoutes');
+const documents = require('./docRoutes');
+const roles = require('./roleRoutes');
 
 // USE EXPRESS JWT
 
-
-// Define routes and mapping them to controllers
-// USER ENDPOINTS
-router.route('/users')
-  .post(users.create); // Creates a new user.
-
-router.use(middleware.authenticate);
-
-router.route('/')
-  .get(users.getting);
+// Routes
+router.use('/users', users);
+router.use('/documents', documents);
+router.use('/roles', roles);
 
 module.exports = router;
