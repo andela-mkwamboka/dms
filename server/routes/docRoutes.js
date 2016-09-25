@@ -6,7 +6,6 @@ const docs = require('../controllers/docsCtrl');
 
 // Middleware
 const middleware = require('../middleware/middleware');
-
 // Token authentication
 router.use(middleware.authenticate);
 
@@ -19,5 +18,6 @@ router.route('/:doc_id')
   .get(docs.getDoc) // Find document.
   .put(docs.update) // Update document.
   .delete(docs.delete); // Delete document
+
 
 module.exports = router;
