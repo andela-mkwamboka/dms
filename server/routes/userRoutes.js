@@ -12,6 +12,9 @@ const users = require('../controllers/usersCtrl');
 router.route('/')
   .post(users.create); // Creates a new user.
 
+router.route('/login')
+  .post(users.login); // Creates a new user.
+
 // Token authentication
 router.use(middleware.authenticate);
 
