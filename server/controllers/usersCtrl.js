@@ -85,4 +85,18 @@ module.exports = {
       res.status(200).json({ users: users });
     });
   },
+  getUser: (req, res) => {
+    User
+    .findById(req.params.user_id)
+    .select('-docs -__v')
+    .exec((err, user) => {
+      if (err) res.status(404).json({ err: err });
+      if (!user) {
+        res.send(404).json({
+          message: 'User not found',
+        });
+      }
+      res.status(200).json(user);
+    });
+  },
 };
