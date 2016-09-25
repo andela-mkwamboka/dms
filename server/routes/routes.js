@@ -1,6 +1,9 @@
 // Dependencies
 const router = require('express').Router();
 
+// Middleware
+const middleware = require('../middleware/middleware');
+
 // Controllers
 const users = require('../controllers/usersCtrl');
 
@@ -17,5 +20,9 @@ const users = require('../controllers/usersCtrl');
 router.route('/users')
   .post(users.create); // Creates a new user.
 
+router.use(middleware.authenticate);
+
+router.route('/')
+  .get(users.getting);
 
 module.exports = router;

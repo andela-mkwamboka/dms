@@ -32,11 +32,14 @@
     "mocha-istanbul": "^0.3.0"
   },
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "express": "^4.14.0",
+    "jsonwebtoken": "^7.1.9",
     "mongoose": "^4.6.1",
+    "mongoose-fixture": "^0.4.1",
     "mongoose-seed-plus": "^0.1.2",
     "mongoose-seeder": "^1.2.1"
   }

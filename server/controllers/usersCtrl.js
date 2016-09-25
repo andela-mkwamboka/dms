@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const superSecret = require('./../config/config').sessionSecret;
 
 const User = mongoose.model('Users');
 
@@ -27,9 +29,22 @@ module.exports = {
           message: err,
         });
       }
+      const claims = ({
+        _id: user._id,
+        username: req.body.username,
+        role: req.body.role,
+      });
+      // Create token
+      const token = jwt.sign(claims, superSecret, {
+        expiresIn: 60 * 60 * 24, // 24 hours
+      });
       res.status(200).json({
         message: 'User saved',
+        token: token,
       });
     });
+  },
+  getting: () => {
+    console.log('Hey');
   },
 };
