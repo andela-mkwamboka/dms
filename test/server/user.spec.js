@@ -130,11 +130,41 @@ describe('USER', () => {
         done();
       });
     });
+
+    it('/users/<id>: Returns error if no user is found.', (done) => {
+      chai.request(api)
+      .get('/users/' + userID)
+      .set({ Authorization: 'Bearer ' + token })
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('_id');
+        expect(res.body._id).to.equal(userID);
+        done();
+      });
+    });
   });
   describe('UPDATE', () => {
     it('/users/<id>: Update user attributes.', (done) => {
       chai.request(api)
-        .put('/users/' + userID)
+        .put('/users/67e806916b61fd612204fe2b')
+        .set({ Authorization: 'Bearer ' + token })
+        .send({
+          name: {
+            first: 'first name',
+            last: 'last name',
+          },
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body.message).to.equal('User not found');
+          done();
+        });
+    });
+
+    it('/users/<id>: Returns error if user not found.', (done) => {
+      chai.request(api)
+        .put('/users/67e806916b61fd612204fe2b')
         .set({ Authorization: 'Bearer ' + token })
         .send({
           name: {
@@ -144,10 +174,8 @@ describe('USER', () => {
         })
         .end((err, res) => {
           expect(res).to.be.a('object');
-          expect(res.status).to.equal(200);
-          expect(res.body.name.first).to.equal('first name');
-          expect(res.body.name.last).to.equal('last name');
-          expect(res.body._id).to.equal(userID);
+          expect(res.status).to.equal(404);
+          expect(res.body.message).to.equal('User not found');
           done();
         });
     });
@@ -162,6 +190,18 @@ describe('USER', () => {
           expect(res.body.message).to.equal('Successfully deleted');
           done();
         });
+    });
+  });
+  describe('ERROR HANDLING', () => {
+    it('Return error if no users are found', (done) => {
+      chai.request(api)
+      .get('/users')
+      .set({ Authorization: 'Bearer ' + token })
+      .end((err, res) => {
+        expect(res.status).to.equal(404);
+        expect(res.body.message).to.be.equal('No users found');
+        done();
+      });
     });
   });
 });
