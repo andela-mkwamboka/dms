@@ -10,6 +10,7 @@ const expect = chai.expect;
 chai.use(chaiHttp);
 
 describe('USER', () => {
+  let token;
   User.collection.drop();
   const user = {
     username: 'Mona',
@@ -17,7 +18,6 @@ describe('USER', () => {
     last: 'Kwamboka',
     email: 'mona@gmail.com',
     password: '1234',
-    role: 'admin',
   };
   describe('POST', () => {
     it('Should create new user', (done) => {
@@ -53,6 +53,7 @@ describe('USER', () => {
         password: '1234',
       })
       .end((err, res) => {
+        token = res.body.token;
         expect(res.body.token).to.be.exist;
         expect(res.status).to.equal(200);
         expect(res.body).to.be.a('object');
@@ -85,6 +86,31 @@ describe('USER', () => {
         expect(res.status).to.equal(400);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.all.keys('message');
+        done();
+      });
+    });
+  });
+  describe('GET', () => {
+    it('Should create user with all fileds', (done) => {
+      chai.request(api)
+      .get('/users')
+      .set({ Authorization: 'Bearer ' + token })
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body.users[0]).to.have.all.keys('_id', 'email', 'role', 'username', 'name');
+        expect(res.body.users[0].name).to.have.all.keys('first', 'last');
+        done();
+      });
+    });
+
+    it('/users/: Should get all users.', (done) => {
+      chai.request(api)
+      .get('/users')
+      .set({ Authorization: 'Bearer ' + token })
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body).to.be.a('object');
         done();
       });
     });

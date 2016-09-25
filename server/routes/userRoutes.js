@@ -18,4 +18,7 @@ router.route('/login')
 // Token authentication
 router.use(middleware.authenticate);
 
+router.route('/')
+  .get(users.getAll);
+
 module.exports = router;
