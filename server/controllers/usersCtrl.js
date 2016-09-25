@@ -44,7 +44,4 @@ module.exports = {
       });
     });
   },
-  getting: () => {
-    console.log('Hey');
-  },
 };
