@@ -73,4 +73,16 @@ module.exports = {
       }
     });
   },
+  getAll: (req, res) => {
+    User
+    .find({})
+    .select('-password -__v')
+    .exec((err, users) => {
+      if (err) res.status(404).json({ message: err });
+      if (!users) {
+        res.status(404).json({ message: 'No users found' });
+      }
+      res.status(200).json({ users: users });
+    });
+  },
 };
