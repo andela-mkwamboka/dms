@@ -17,9 +17,9 @@ router.route('/')
   .get(docs.getAll); // Find matching instances of documents.
 
 router.route('/:doc_id')
-  .get(accessAuth.docAccess, docs.getDoc) // Find document.
-  .put(accessAuth.docAccess, docs.update) // Update document.
-  .delete(accessAuth.docAccess, docs.delete); // Delete document
+  .get(accessAuth.docsAccess, docs.getDoc) // Find document.
+  .put(accessAuth.docsAccess, docs.update) // Update document.
+  .delete(accessAuth.docsAccess, docs.delete); // Delete document
 
 
 module.exports = router;
