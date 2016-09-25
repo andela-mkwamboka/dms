@@ -2,16 +2,13 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const api = require('./../../server');
-const mongoose = require('mongoose');
 
-const Document = mongoose.model('Document');
 const expect = chai.expect;
 
 chai.use(chaiHttp);
 
 describe('DOCUMENT', () => {
   let token;
-  let documentID;
   const doc = {
     title: 'This is a dummy title',
     content: 'Content goes here',
@@ -20,18 +17,13 @@ describe('DOCUMENT', () => {
     title: 'Dummy title',
     content: 'Content goes here',
   };
-  const user = {
-    username: 'Saddam',
-    first: 'Saddam',
-    last: 'Hussein',
-    email: 'sh@gmail.com',
-    password: '1234',
-  };
-  Document.collection.drop();
   before((done) => {
     chai.request(api)
-    .post('/users')
-    .send(user)
+    .post('/users/login')
+    .send({
+      username: 'john',
+      password: '1234',
+    })
     .end((err, res) => {
       token = res.body.token;
       done();
@@ -88,10 +80,9 @@ describe('DOCUMENT', () => {
         .get('/documents')
         .set({ Authorization: 'Bearer ' + token })
         .end((err, res) => {
-          documentID = res.body.documents[0]._id;
           expect(res.status).to.equal(200);
           expect(res.body.documents).to.be.a('Array');
-          expect(res.body.documents.length).to.equal(2);
+          expect(res.body.documents.length).to.equal(3);
           expect(res.body.documents[0]).to.have.all.keys('title', 'content', 'ownerId', 'updatedAt', '_id', 'createdAt');
           expect(res.body.documents[0].createdAt > res.body.documents[1].createdAt).to.be.true;
           done();
@@ -99,9 +90,8 @@ describe('DOCUMENT', () => {
     });
 
     it('/documents/<id>: Find document.', (done) => {
-      // const documentID = userDetails.user.docs[0]._id;
       chai.request(api)
-        .get('/documents/' + documentID)
+        .get('/documents/57d11f44b0a303c1186279bf')
         .set({ Authorization: 'Bearer ' + token })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -114,7 +104,7 @@ describe('DOCUMENT', () => {
   describe('UPDATE', () => {
     it('/documents/<id>: Update document attributes.', (done) => {
       chai.request(api)
-        .put('/documents/' + documentID)
+        .put('/documents/57d11f44b0a303c1186279bf')
         .set({ Authorization: 'Bearer ' + token })
         .send({
           title: 'new title',
@@ -123,7 +113,7 @@ describe('DOCUMENT', () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
-          expect(res.body.document._id).to.be.equal(documentID);
+          expect(res.body.document._id).to.be.equal('57d11f44b0a303c1186279bf');
           expect(res.body.document.title).to.be.equal('new title');
           expect(res.body.document.content).to.be.equal('new content');
           done();
@@ -145,8 +135,6 @@ describe('DOCUMENT', () => {
         });
     });
   });
-<<<<<<< HEAD
-=======
   describe('SEARCH', () => {
     it('Returns search results according to text searched', (done) => {
       chai.request(api)
@@ -193,11 +181,10 @@ describe('DOCUMENT', () => {
         });
     });
   });
->>>>>>> d0e46d7... Pagination implementation and testing
   describe('DELETE', () => {
     it('/documents/<id>: Delete document.', (done) => {
       chai.request(api)
-        .delete('/documents/' + documentID)
+        .delete('/documents/57d11f44b0a303c1186279bf')
         .set({ Authorization: 'Bearer ' + token })
         .end((err, res) => {
           expect(res.status).to.equal(202);
