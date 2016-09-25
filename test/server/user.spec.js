@@ -152,4 +152,16 @@ describe('USER', () => {
         });
     });
   });
+  describe('DELETE', () => {
+    it('/users/<id>: Delete user.', (done) => {
+      chai.request(api)
+        .delete('/users/' + userID)
+        .set({ Authorization: 'Bearer ' + token })
+        .end((err, res) => {
+          expect(res.status).to.equal(202);
+          expect(res.body.message).to.equal('Successfully deleted');
+          done();
+        });
+    });
+  });
 });

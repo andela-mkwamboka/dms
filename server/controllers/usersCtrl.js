@@ -124,4 +124,19 @@ module.exports = {
        });
      });
   },
+  delete: (req, res) => {
+    User
+    .findByIdAndRemove(req.params.user_id)
+    .exec((err) => {
+      if (err) res.status(404).json(err);
+      if (!req.params.user_id) {
+        res.status(404).json({
+          message: 'No params found',
+        });
+      }
+      res.status(202).json({
+        message: 'Successfully deleted',
+      });
+    });
+  },
 };
