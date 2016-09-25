@@ -88,7 +88,7 @@ module.exports = {
   getUser: (req, res) => {
     User
     .findById(req.params.user_id)
-    .select('-docs -__v')
+    .select('-__v -password')
     .exec((err, user) => {
       if (err) res.status(404).json({ err: err });
       if (!user) {
@@ -98,5 +98,30 @@ module.exports = {
       }
       res.status(200).json(user);
     });
+  },
+  update: (req, res) => {
+    User
+     .findById(req.params.user_id)
+     .select('-__v')
+     .exec((err, user) => {
+       if (err) res.status(404).json(err);
+       if (!user) {
+         res.status(404).json({
+           message: 'User not found',
+         });
+       }
+       // update the users info only if its new
+       if (req.body.name) user.name = req.body.name;
+       if (req.body.username) user.username = req.body.username;
+       if (req.body.password) user.password = req.body.password;
+       if (req.body.first) user.name.first = req.body.first;
+       if (req.body.last) user.name.last = req.body.last;
+       if (req.body.email) user.name.email = req.body.email;
+       if (req.body.role) user.name.role = req.body.role;
+       // Update the user
+       user.save(() => {
+         res.status(200).json(user);
+       });
+     });
   },
 };
