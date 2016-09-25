@@ -22,6 +22,7 @@ router.route('/')
   .get(users.getAll);
 
 router.route('/:user_id')
-  .get(users.getUser); // Find user.
-
+  .get(users.getUser) // Find user.
+  .put(users.update); // Update user info.
+  
 module.exports = router;
