@@ -14,6 +14,7 @@ module.exports = {
     user.name.last = req.body.last;
     user.email = req.body.email;
     user.password = req.body.password;
+    user.role = req.body.role;
 
 
     // save user and check for errors
@@ -116,7 +117,6 @@ module.exports = {
          });
        }
        // update the users info only if its new
-       if (req.body.name) user.name = req.body.name;
        if (req.body.username) user.username = req.body.username;
        if (req.body.password) user.password = req.body.password;
        if (req.body.first) user.name.first = req.body.first;
