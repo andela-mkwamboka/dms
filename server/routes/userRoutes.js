@@ -23,6 +23,7 @@ router.route('/')
 
 router.route('/:user_id')
   .get(users.getUser) // Find user.
-  .put(users.update); // Update user info.
-  
+  .put(users.update) // Update user info.
+  .delete(users.delete); // Delete user
+
 module.exports = router;
