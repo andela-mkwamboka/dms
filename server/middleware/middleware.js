@@ -38,16 +38,4 @@ module.exports = {
       });
     }
   },
-  // Role accessLevel
-  // accessLevel: (req, res, next) => {
-  //   const role = req.decoded.role;
-  //   if (role !== 'admin') {
-  //     res.status(403).json({
-  //       success: false,
-  //       message: 'Access Denied',
-  //     });
-  //   } else {
-  //     next();
-  //   }
-  // },
 };

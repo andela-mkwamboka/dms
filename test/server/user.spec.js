@@ -100,7 +100,7 @@ describe('USER', () => {
       .end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body).to.be.a('object');
-        expect(res.body.users[0]).to.have.all.keys('_id', 'email', 'title', 'username', 'name');
+        expect(res.body.users[0]).to.have.all.keys('_id', 'email', 'role', 'username', 'name');
         expect(res.body.users[0].name).to.have.all.keys('first', 'last');
         done();
       });
@@ -192,17 +192,16 @@ describe('USER', () => {
         });
     });
   });
-  // describe('ERROR HANDLING', () => {
-  //   User.collection.drop();
-  //   it.skip('Return error if no users are found', (done) => {
-  //     chai.request(api)
-  //     .get('/users')
-  //     .set({ Authorization: 'Bearer ' + token })
-  //     .end((err, res) => {
-  //       expect(res.status).to.equal(404);
-  //       expect(res.body.message).to.be.equal('No users found');
-  //       done();
-  //     });
-  //   });
-  // });
+  describe('ERROR HANDLING', () => {
+    it('Return error if no users are found', (done) => {
+      chai.request(api)
+      .get('/users')
+      .set({ Authorization: 'Bearer ' + token })
+      .end((err, res) => {
+        expect(res.status).to.equal(404);
+        expect(res.body.message).to.be.equal('No users found');
+        done();
+      });
+    });
+  });
 });

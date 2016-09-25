@@ -1,6 +1,7 @@
 // Dependencies
 const router = require('express').Router();
 
+
 // Controllers
 const docs = require('../controllers/docsCtrl');
 
@@ -19,6 +20,5 @@ router.route('/:doc_id')
   .get(docs.getDoc) // Find document.
   .put(docs.update) // Update document.
   .delete(docs.delete); // Delete document
-
 
 module.exports = router;
