@@ -11,6 +11,8 @@ chai.use(chaiHttp);
 
 describe('USER', () => {
   let token;
+  let userID;
+
   User.collection.drop();
   const user = {
     username: 'Mona',
@@ -109,8 +111,22 @@ describe('USER', () => {
       .get('/users')
       .set({ Authorization: 'Bearer ' + token })
       .end((err, res) => {
+        userID = res.body.users[0]._id;
         expect(res.status).to.equal(200);
         expect(res.body).to.be.a('object');
+        done();
+      });
+    });
+
+    it('/users/<id>: Find user.', (done) => {
+      chai.request(api)
+      .get('/users/' + userID)
+      .set({ Authorization: 'Bearer ' + token })
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.property('_id');
+        expect(res.body._id).to.equal(userID);
         done();
       });
     });

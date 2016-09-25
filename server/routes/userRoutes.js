@@ -21,4 +21,7 @@ router.use(middleware.authenticate);
 router.route('/')
   .get(users.getAll);
 
+router.route('/:user_id')
+  .get(users.getUser); // Find user.
+
 module.exports = router;
