@@ -48,6 +48,7 @@ module.exports = {
     User
     .findOne({ username: req.body.username })
     .exec((err, user) => {
+      /* istanbul ignore next */
       if (err) res.status(404).json({ err: err });
       if (!user) {
         res.status(404).json({ message: 'User not found.' });
@@ -78,11 +79,13 @@ module.exports = {
     .find({})
     .select('-password -__v')
     .exec((err, users) => {
-      if (err) res.status(404).json({ message: err });
-      if (!users) {
+      /* istanbul ignore next */
+      if (err) res.status(404).json(err);
+      if (users.length === 0) {
         res.status(404).json({ message: 'No users found' });
+      } else {
+        res.status(200).json({ users: users });
       }
-      res.status(200).json({ users: users });
     });
   },
   getUser: (req, res) => {
@@ -90,7 +93,8 @@ module.exports = {
     .findById(req.params.user_id)
     .select('-__v -password')
     .exec((err, user) => {
-      if (err) res.status(404).json({ err: err });
+      /* istanbul ignore next */
+      if (err) res.status(404).json(err);
       if (!user) {
         res.send(404).json({
           message: 'User not found',
@@ -104,6 +108,7 @@ module.exports = {
      .findById(req.params.user_id)
      .select('-__v')
      .exec((err, user) => {
+       /* istanbul ignore next */
        if (err) res.status(404).json(err);
        if (!user) {
          res.status(404).json({
@@ -128,12 +133,8 @@ module.exports = {
     User
     .findByIdAndRemove(req.params.user_id)
     .exec((err) => {
+      /* istanbul ignore next */
       if (err) res.status(404).json(err);
-      if (!req.params.user_id) {
-        res.status(404).json({
-          message: 'No params found',
-        });
-      }
       res.status(202).json({
         message: 'Successfully deleted',
       });
