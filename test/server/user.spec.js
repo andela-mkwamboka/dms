@@ -44,5 +44,49 @@ describe('USER', () => {
         done();
       });
     });
+
+    it('/users/login: Logs a user in through authentication and returns token.', (done) => {
+      chai.request(api)
+      .post('/users/login')
+      .send({
+        username: 'Mona',
+        password: '1234',
+      })
+      .end((err, res) => {
+        expect(res.body.token).to.be.exist;
+        expect(res.status).to.equal(200);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.all.keys('message', 'token');
+        done();
+      });
+    });
+    it('/users/login: Return error is user isn\'t registered.', (done) => {
+      chai.request(api)
+      .post('/users/login')
+      .send({
+        username: 'Hellen',
+        password: '1234',
+      })
+      .end((err, res) => {
+        expect(res.status).to.equal(404);
+        expect(res.body).to.be.a('object');
+        expect(res.body.message).to.be.equal('User not found.');
+        done();
+      });
+    });
+    it('/users/login: Return error if user passes wrong password.', (done) => {
+      chai.request(api)
+      .post('/users/login')
+      .send({
+        username: 'Mona',
+        password: '4321',
+      })
+      .end((err, res) => {
+        expect(res.status).to.equal(400);
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.have.all.keys('message');
+        done();
+      });
+    });
   });
 });

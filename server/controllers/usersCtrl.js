@@ -44,4 +44,33 @@ module.exports = {
       });
     });
   },
+  login: (req, res) => {
+    User
+    .findOne({ username: req.body.username })
+    .exec((err, user) => {
+      if (err) res.status(404).json({ err: err });
+      if (!user) {
+        res.status(404).json({ message: 'User not found.' });
+      } else if (user) {
+        // Check if password matches
+        const validPassword = user.comparePassword(req.body.password);
+        if (!validPassword) {
+          res.status(400).json({ message: 'Wrong password.' });
+        }
+        const claims = ({
+          _id: user._id,
+          username: req.body.username,
+          role: user.role,
+        });
+        // Create token
+        const token = jwt.sign(claims, superSecret, {
+          expiresIn: 60 * 60 * 24, // 24 hours
+        });
+        res.status(200).json({
+          message: 'Enjoy your token!',
+          token: token,
+        });
+      }
+    });
+  },
 };
