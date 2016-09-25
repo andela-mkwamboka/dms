@@ -2,12 +2,15 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const api = require('./../../server');
+const mongoose = require('mongoose');
 
+const User = mongoose.model('Users');
 const expect = chai.expect;
 
 chai.use(chaiHttp);
 
 describe('USER', () => {
+  User.collection.drop();
   const user = {
     username: 'Mona',
     first: 'Monicah',
@@ -24,7 +27,7 @@ describe('USER', () => {
       .end((err, res) => {
         expect(res.status).to.be.equal(200);
         expect(res.body).to.be.a('object');
-        expect(res.body).to.have.all.keys('message');
+        expect(res.body).to.have.all.keys('message', 'token');
         done();
       });
     });
