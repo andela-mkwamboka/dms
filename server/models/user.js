@@ -29,10 +29,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  role: {
+  title: {
+    ref: 'Role',
     type: String,
     default: 'user',
-    ref: 'Role',
   },
 });
 
