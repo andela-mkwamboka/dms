@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const Document = mongoose.model('Document');
+const rbac = require('./roleAccess');
 
 module.exports = {
   create: (req, res) => {
@@ -62,25 +63,42 @@ module.exports = {
     .findById(req.params.doc_id)
     .select('-__v')
     .exec((err, document) => {
-      /* istanbul ignore next */
-      if (err) res.status(404).json(err);
-      if (req.body.title) document.title = req.body.title;
-      if (req.body.content) document.content = req.body.content;
-      document.save(() => {
-        res.status(200).json({
-          document: document,
-        });
+      rbac.can(req.decoded.role, 'doc:update', { Id: req.decoded._id.toString(), ownerId: document.ownerId.toString() }, (err, can) => {
+        if (err || !can) {
+          res.status(400).json({
+            message: 'Not accessible',
+          });
+        } else {
+          /* istanbul ignore next */
+          if (err) res.status(404).json(err);
+          if (req.body.title) document.title = req.body.title;
+          if (req.body.content) document.content = req.body.content;
+          document.save(() => {
+            res.status(200).json({
+              document: document,
+            });
+          });
+        }
       });
     });
   },
   delete: (req, res) => {
     Document
-    .findByIdAndRemove(req.params.doc_id)
-    .exec((err) => {
-      /* istanbul ignore next */
-      if (err) res.status(404).json(err);
-      res.status(202).json({
-        message: 'Successfully deleted',
+    .findById(req.params.doc_id)
+    .exec((err, document) => {
+      rbac.can(req.decoded.role, 'doc:delete', { Id: req.decoded._id.toString(), ownerId: document.ownerId.toString() }, (err, can) => {
+        if (err || !can) {
+          res.status(400).json({
+            message: 'Not accessible',
+          });
+        } else {
+          /* istanbul ignore next */
+          if (err) res.status(404).json(err);
+          document.remove();
+          res.status(202).json({
+            message: 'Successfully deleted',
+          });
+        }
       });
     });
   },
