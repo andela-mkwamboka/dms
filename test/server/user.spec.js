@@ -93,14 +93,14 @@ describe('USER', () => {
     });
   });
   describe('GET', () => {
-    it('Should create user with all fileds', (done) => {
+    it('Should create user with all fields', (done) => {
       chai.request(api)
       .get('/users')
       .set({ Authorization: 'Bearer ' + token })
       .end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body).to.be.a('object');
-        expect(res.body.users[0]).to.have.all.keys('_id', 'email', 'title', 'username', 'name');
+        expect(res.body.users[0]).to.have.all.keys('_id', 'email', 'role', 'username', 'name');
         expect(res.body.users[0].name).to.have.all.keys('first', 'last');
         done();
       });

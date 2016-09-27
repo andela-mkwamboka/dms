@@ -48,6 +48,7 @@ module.exports = {
     .findById(req.params.doc_id)
     .select('-__v')
     .exec((err, document) => {
+      console.log('err');
       if (err) {
         /* istanbul ignore next */
         res.status(400).json(err);

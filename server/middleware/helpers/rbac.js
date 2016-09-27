@@ -14,7 +14,7 @@ const rbac = require('easy-rbac').create(
       },
     ] },
     admin: {
-      can: ['doc:delete&update:any', 'docs:get:all', 'user:deleted&update:any', 'users:get:all', 'role:create:delete:update:get'],
+      can: ['documents:delete&update:any', 'documents:get:all', 'user:deleted&update:any', 'users:get:all', 'role:create:delete:update:get'],
       inherits: ['user'],
     },
   }

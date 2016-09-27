@@ -26,6 +26,7 @@ describe('DOCUMENT', () => {
     last: 'Hussein',
     email: 'sh@gmail.com',
     password: '1234',
+    role: 'admin',
   };
   Document.collection.drop();
   before((done) => {
@@ -99,7 +100,6 @@ describe('DOCUMENT', () => {
     });
 
     it('/documents/<id>: Find document.', (done) => {
-      // const documentID = userDetails.user.docs[0]._id;
       chai.request(api)
         .get('/documents/' + documentID)
         .set({ Authorization: 'Bearer ' + token })
@@ -141,6 +141,30 @@ describe('DOCUMENT', () => {
         .end((err, res) => {
           expect(res).to.be.a('object');
           expect(res.status).to.equal(404);
+          done();
+        });
+    });
+  });
+  describe('SEARCH', () => {
+    it('Returns search results according to text searched', (done) => {
+      chai.request(api)
+        .get('/search/new title')
+        .set({ Authorization: 'Bearer ' + token })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.results).to.be.a('object');
+          expect(res.body.results).to.have.all.keys('_id', 'updatedAt', 'createdAt', 'ownerId', 'content', 'title');
+          done();
+        });
+    });
+    it('Returns error if query is not found', (done) => {
+      chai.request(api)
+        .get('/search/monicah')
+        .set({ Authorization: 'Bearer ' + token })
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body).to.be.a('object');
+          expect(res.body.message).to.be.equal('No such title in documents');
           done();
         });
     });

@@ -9,11 +9,6 @@ const RoleSchema = new Schema({
     required: true,
     enum: ['user', 'admin'],
   },
-  permissions: {
-    type: String,
-    required: true,
-    enum: ['read', 'readwrite'],
-  },
 });
 
 module.exports = mongoose.model('Role', RoleSchema);
