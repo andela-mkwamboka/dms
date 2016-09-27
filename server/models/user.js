@@ -40,9 +40,11 @@ const userSchema = new Schema({
 userSchema.pre('save', function (next) {
   const user = this;
   // Hash the password only if the password has been changed or user is new
+  /* istanbul ignore next */
   if (!user.isModified('password')) return next();
   // generate the hash
   bcrypt.hash(user.password, null, null, (err, hash) => {
+    /* istanbul ignore next */
     if (err) return next(err);
     // Change the password to the hashed one
     user.password = hash;

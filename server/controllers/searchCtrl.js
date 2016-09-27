@@ -9,6 +9,7 @@ module.exports = {
     .findOne({ title: searchTerm })
     .select('-__v')
     .exec((err, doc) => {
+      /* istanbul ignore next */
       if (err) res.status(404).json(err);
       if (!doc) {
         res.status(404).json({
