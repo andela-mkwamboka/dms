@@ -19,7 +19,7 @@ module.exports = {
     .findById(docId)
     .select('ownerId')
     .exec((err, idObject) => {
-      if (err) res.status(400).send({ message: err });
+      if (err) res.status(400).json({ message: err });
       rbac.can(req.decoded.role, 'doc:delete&update:any', (error, can) => {
         if (error || !can) {
           rbac.can(req.decoded.role, 'doc:delete&update', { userId: req.decoded._id, ownerId: idObject.ownerId }, (err, can) => {

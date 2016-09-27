@@ -2,24 +2,20 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const api = require('./../../server');
-const mongoose = require('mongoose');
 
-const User = mongoose.model('Users');
 const expect = chai.expect;
 
 chai.use(chaiHttp);
 
 describe('USER', () => {
   let token;
-  let userID;
-
-  User.collection.drop();
   const user = {
     username: 'Mona',
     first: 'Monicah',
     last: 'Kwamboka',
     email: 'mona@gmail.com',
     password: '1234',
+    role: 'admin',
   };
   describe('POST', () => {
     it('Should create new user', (done) => {
@@ -63,6 +59,7 @@ describe('USER', () => {
         done();
       });
     });
+
     it('/users/login: Return error is user isn\'t registered.', (done) => {
       chai.request(api)
       .post('/users/login')
@@ -77,6 +74,7 @@ describe('USER', () => {
         done();
       });
     });
+
     it('/users/login: Return error if user passes wrong password.', (done) => {
       chai.request(api)
       .post('/users/login')
@@ -93,7 +91,7 @@ describe('USER', () => {
     });
   });
   describe('GET', () => {
-    it('Should create user with all fileds', (done) => {
+    it('Should create user with all fields', (done) => {
       chai.request(api)
       .get('/users')
       .set({ Authorization: 'Bearer ' + token })
@@ -111,7 +109,6 @@ describe('USER', () => {
       .get('/users')
       .set({ Authorization: 'Bearer ' + token })
       .end((err, res) => {
-        userID = res.body.users[0]._id;
         expect(res.status).to.equal(200);
         expect(res.body).to.be.a('object');
         done();
@@ -120,26 +117,50 @@ describe('USER', () => {
 
     it('/users/<id>: Find user.', (done) => {
       chai.request(api)
-      .get('/users/' + userID)
+      .get('/users/54d11f35b0a303c1112345db')
       .set({ Authorization: 'Bearer ' + token })
       .end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('_id');
-        expect(res.body._id).to.equal(userID);
+        expect(res.body._id).to.equal('54d11f35b0a303c1112345db');
         done();
       });
     });
 
     it('/users/<id>: Returns error if no user is found.', (done) => {
       chai.request(api)
-      .get('/users/' + userID)
+      .get('/users/54d11f35b0a303c1112345db')
       .set({ Authorization: 'Bearer ' + token })
       .end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('_id');
-        expect(res.body._id).to.equal(userID);
+        expect(res.body._id).to.equal('54d11f35b0a303c1112345db');
+        done();
+      });
+    });
+
+    it('/users/<id>/documents: Get documents belonging to a user', (done) => {
+      chai.request(api)
+      .get('/users/57d11f44b0a303c1186279bf/documents')
+      .set({ Authorization: 'Bearer ' + token })
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body).to.be.a('array');
+        expect(res.body[0].ownerId).to.equal('57d11f44b0a303c1186279bf');
+        expect(res.body.length).to.equal(2);
+        done();
+      });
+    });
+
+    it('/users/<id>/documents: Return null if a user has no documents', (done) => {
+      chai.request(api)
+      .get('/users/54d11f35c0a303c6712367fc/documents')
+      .set({ Authorization: 'Bearer ' + token })
+      .end((err, res) => {
+        expect(res.status).to.equal(404);
+        expect(res.body.message).to.equal('User has no documents');
         done();
       });
     });
@@ -147,7 +168,7 @@ describe('USER', () => {
   describe('UPDATE', () => {
     it('/users/<id>: Update user attributes.', (done) => {
       chai.request(api)
-        .put('/users/67e806916b61fd612204fe2b')
+        .put('/users/54d11f35b0a303c1112345db')
         .set({ Authorization: 'Bearer ' + token })
         .send({
           name: {
@@ -156,8 +177,8 @@ describe('USER', () => {
           },
         })
         .end((err, res) => {
-          expect(res.status).to.equal(404);
-          expect(res.body.message).to.equal('User not found');
+          expect(res.status).to.equal(200);
+          expect(res.body._id).to.equal('54d11f35b0a303c1112345db');
           done();
         });
     });
@@ -183,25 +204,13 @@ describe('USER', () => {
   describe('DELETE', () => {
     it('/users/<id>: Delete user.', (done) => {
       chai.request(api)
-        .delete('/users/' + userID)
+        .delete('/users/54d11f35c0a303c6712367fc')
         .set({ Authorization: 'Bearer ' + token })
         .end((err, res) => {
           expect(res.status).to.equal(202);
           expect(res.body.message).to.equal('Successfully deleted');
           done();
         });
-    });
-  });
-  describe('ERROR HANDLING', () => {
-    it('Return error if no users are found', (done) => {
-      chai.request(api)
-      .get('/users')
-      .set({ Authorization: 'Bearer ' + token })
-      .end((err, res) => {
-        expect(res.status).to.equal(404);
-        expect(res.body.message).to.be.equal('No users found');
-        done();
-      });
     });
   });
 });

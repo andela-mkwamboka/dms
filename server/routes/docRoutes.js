@@ -6,6 +6,10 @@ const docs = require('../controllers/docsCtrl');
 
 // Middleware
 const middleware = require('../middleware/middleware');
+<<<<<<< HEAD
+=======
+
+>>>>>>> Removed rbac connection to code and added search rout with tests
 // Token authentication
 router.use(middleware.authenticate);
 
