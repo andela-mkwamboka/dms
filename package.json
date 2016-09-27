@@ -42,6 +42,7 @@
     "mongoose": "^4.6.1",
     "mongoose-fixture": "^0.4.1",
     "mongoose-seed-plus": "^0.1.2",
-    "mongoose-seeder": "^1.2.1"
+    "mongoose-seeder": "^1.2.1",
+    "rbac2": "^1.0.7"
   }
 }
