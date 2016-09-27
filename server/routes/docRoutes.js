@@ -6,7 +6,6 @@ const docs = require('../controllers/docsCtrl');
 
 // Middleware
 const middleware = require('../middleware/middleware');
-const accessAuth = require('../middleware/roleAuth');
 
 // Token authentication
 router.use(middleware.authenticate);
@@ -17,9 +16,9 @@ router.route('/')
   .get(docs.getAll); // Find matching instances of documents.
 
 router.route('/:doc_id')
-  .get(accessAuth.docsAccess, docs.getDoc) // Find document.
-  .put(accessAuth.docsAccess, docs.update) // Update document.
-  .delete(accessAuth.docsAccess, docs.delete); // Delete document
+  .get(docs.getDoc) // Find document.
+  .put(docs.update) // Update document.
+  .delete(docs.delete); // Delete document
 
 
 module.exports = router;
