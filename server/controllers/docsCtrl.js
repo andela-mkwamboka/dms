@@ -31,10 +31,14 @@ module.exports = {
     });
   },
   getAll: (req, res) => {
+    const page = req.query.page;
+    const skipping = (page - 1) * parseInt(req.query.limit, 10);
     Document
     .find()
     .sort({ createdAt: -1 })
+    .skip(skipping)
     .select('-__v')
+    .limit(parseInt(req.query.limit, 10) || 10)
     .exec((err, docs) => {
       /* istanbul ignore next */
       if (err) res.status(404).json(err);

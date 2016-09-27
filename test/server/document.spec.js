@@ -145,6 +145,55 @@ describe('DOCUMENT', () => {
         });
     });
   });
+<<<<<<< HEAD
+=======
+  describe('SEARCH', () => {
+    it('Returns search results according to text searched', (done) => {
+      chai.request(api)
+        .get('/search/new title')
+        .set({ Authorization: 'Bearer ' + token })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.results).to.be.a('object');
+          expect(res.body.results).to.have.all.keys('_id', 'updatedAt', 'createdAt', 'ownerId', 'content', 'title');
+          done();
+        });
+    });
+    it('Returns error if query is not found', (done) => {
+      chai.request(api)
+        .get('/search/monicah')
+        .set({ Authorization: 'Bearer ' + token })
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body).to.be.a('object');
+          expect(res.body.message).to.be.equal('No such title in documents');
+          done();
+        });
+    });
+  });
+  describe('PAGINATION', () => {
+    it('/documents/ Returns document with limit.', (done) => {
+      chai.request(api)
+        .get('/documents/?limit=2&page=1')
+        .set({ Authorization: 'Bearer ' + token })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.documents.length).to.equal(2);
+          done();
+        });
+    });
+    it('/documents/ Returns document with pagination.', (done) => {
+      chai.request(api)
+        .get('/documents/?limit=1&page=2')
+        .set({ Authorization: 'Bearer ' + token })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.documents.length).to.equal(1);
+          done();
+        });
+    });
+  });
+>>>>>>> d0e46d7... Pagination implementation and testing
   describe('DELETE', () => {
     it('/documents/<id>: Delete document.', (done) => {
       chai.request(api)
