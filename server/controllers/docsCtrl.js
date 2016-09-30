@@ -102,4 +102,18 @@ module.exports = {
       });
     });
   },
+  getUserDocs: (req, res) => {
+    Document
+    .find({ ownerId: req.params.user_id })
+    .sort({ createdAt: -1 })
+    .exec((err, documents) => {
+      if (err || documents.length === 0) {
+        res.status(404).send({
+          error: err, message: 'User has no documents',
+        });
+      } else {
+        res.status(200).send(documents);
+      }
+    });
+  },
 };

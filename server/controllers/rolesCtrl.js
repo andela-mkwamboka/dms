@@ -54,20 +54,28 @@ module.exports = {
     .findById(req.params.role_id)
     .select('-__v')
     .exec((err, role) => {
-      /* istanbul ignore next */
-      if (err) res.status(404).json(err);
-      res.status(200).json(role);
+      if (role) {
+        /* istanbul ignore next */
+        if (err) res.status(404).json(err);
+        res.status(200).json(role);
+      } else {
+        res.status(404).json({ message: 'Role doesn\'t exist' });
+      }
     });
   },
   delete: (req, res) => {
     Role
     .findByIdAndRemove(req.params.role_id)
-    .exec((err) => {
-      /* istanbul ignore next */
-      if (err) res.status(404).json(err);
-      res.status(202).json({
-        message: 'Successfully deleted',
-      });
+    .exec((err, role) => {
+      if (role) {
+        /* istanbul ignore next */
+        if (err) res.status(404).json(err);
+        res.status(202).json({
+          message: 'Successfully deleted',
+        });
+      } else {
+        res.status(404).json({ message: 'Role doesn\'t exist' });
+      }
     });
   },
 };
