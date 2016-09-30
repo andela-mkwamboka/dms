@@ -109,40 +109,46 @@ module.exports = {
     User
      .findById(req.params.user_id)
      .select('-__v')
-     .exec((err, user) => {
-       rbac.can(req.decoded.role, 'user:update', { Id: req.decoded._id.toString(), ownerId: user._Id.toString() }, (err, can) => {
-         if (err || !can) {
-           res.status(400).json({
-             message: 'Not accessible',
-           });
-         } else {
-           /* istanbul ignore next */
-           if (err) res.status(404).json(err);
-           if (!user) {
-             res.status(404).json({
-               message: 'User not found',
+     .exec((err, users) => {
+       if (users) {
+         rbac.can(req.decoded.role, 'user:update', { Id: req.decoded._id.toString(), ownerId: users._id.toString() }, (err, can) => {
+           if (err || !can) {
+             res.status(400).json({
+               message: 'Not accessible',
+             });
+           } else {
+             /* istanbul ignore next */
+             if (err) res.status(404).json(err);
+             if (!users) {
+               res.status(404).json({
+                 message: 'User not found',
+               });
+             }
+             // update the users info only if its new
+             if (req.body.username) users.username = req.body.username;
+             if (req.body.password) users.password = req.body.password;
+             if (req.body.first) users.name.first = req.body.first;
+             if (req.body.last) users.name.last = req.body.last;
+             if (req.body.email) users.name.email = req.body.email;
+             if (req.body.role) users.name.role = req.body.role;
+             // Update the user
+             users.save(() => {
+               res.status(200).json(users);
              });
            }
-           // update the users info only if its new
-           if (req.body.username) user.username = req.body.username;
-           if (req.body.password) user.password = req.body.password;
-           if (req.body.first) user.name.first = req.body.first;
-           if (req.body.last) user.name.last = req.body.last;
-           if (req.body.email) user.name.email = req.body.email;
-           if (req.body.role) user.name.role = req.body.role;
-           // Update the user
-           user.save(() => {
-             res.status(200).json(user);
-           });
-         }
-       });
+         });
+       } else {
+         res.status(404).json({
+           message: 'User not found',
+         });
+       }
      });
   },
   delete: (req, res) => {
     User
     .findById(req.params.user_id)
-    .exec((err, user) => {
-      rbac.can(req.decoded.role, 'user:delete', { Id: req.decoded._id.toString(), ownerId: user._Id.toString() }, (err, can) => {
+    .exec((err, users) => {
+      rbac.can(req.decoded.role, 'user:delete', { Id: req.decoded._id.toString(), ownerId: users._id.toString() }, (err, can) => {
         if (err || !can) {
           res.status(400).json({
             message: 'Not accessible',
@@ -150,7 +156,7 @@ module.exports = {
         } else {
           /* istanbul ignore next */
           if (err) res.status(404).json(err);
-          user.delete();
+          users.remove();
           res.status(202).json({
             message: 'Successfully deleted',
           });

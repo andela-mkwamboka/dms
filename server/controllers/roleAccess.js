@@ -14,7 +14,7 @@ const rbac = require('easy-rbac').create(
       ],
     },
     admin: {
-      can: ['doc:delete&update', 'user:deleted&update', 'role:create'],
+      can: ['doc:update', 'doc:delete', 'user:update', 'user:delete', 'role:create'],
     },
   }
 );
