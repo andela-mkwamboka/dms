@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
-<<<<<<< HEAD
 const bcrypt = require('bcrypt-nodejs');
-=======
->>>>>>> staging
 
 const Schema = mongoose.Schema;
 
@@ -31,7 +28,6 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
-<<<<<<< HEAD
   },
   role: {
     type: String,
@@ -63,15 +59,3 @@ userSchema.methods.comparePassword = function (password) {
 };
 
 module.exports = mongoose.model('Users', userSchema);
-=======
-    select: false,
-  },
-  role: {
-    type: String,
-    default: 'user',
-    ref: 'Role',
-  },
-});
-
-mongoose.model('Users', userSchema);
->>>>>>> staging
