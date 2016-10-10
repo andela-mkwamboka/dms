@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for dms/server/middleware/roleAuth.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">all files</a> / <a href="index.html">dms/server/middleware/</a> roleAuth.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">36% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>9/25</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">15% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>3/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">37.5% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>9/24</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const rbac = require('./helpers/rbac');
+const Document = require('../models/document');
+&nbsp;
+module.exports = {
+  usersAccess: (req, res, next) =&gt; {
+<span class="cstat-no" title="statement not covered" >    const userId = req.params.user_id || req.params.id;</span>
+<span class="cstat-no" title="statement not covered" >    rbac.can(req.decoded.role, 'user:delete&amp;update', { userId: req.decoded._id, id: userId }, ((err, can) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (err || !can) {</span>
+<span class="cstat-no" title="statement not covered" >        res.status(401).json({ message: 'Not authorized', err: err });</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        return next();</span>
+      }
+    }));
+  },
+&nbsp;
+  docsAccess: (req, res, next) =&gt; {
+    const docId = req.params.document_id;
+    Document
+    .findById(docId)
+    .select('ownerId')
+    .exec((err, idObject) =&gt; {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (err) <span class="cstat-no" title="statement not covered" >res.status(400).json({ message: err });</span>
+      rbac.can(req.decoded.role, 'doc:delete&amp;update:any', (error, can) =&gt; {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (error || <span class="branch-1 cbranch-no" title="branch not covered" >!can)</span> {
+          rbac.can(req.decoded.role, 'doc:delete&amp;update', { userId: req.decoded._id, ownerId: idObject.ownerId }, (err, can) =&gt; {
+<span class="cstat-no" title="statement not covered" >            if (err || !can) {</span>
+<span class="cstat-no" title="statement not covered" >              console.log(err);</span>
+<span class="cstat-no" title="statement not covered" >              console.log('Hey');</span>
+<span class="cstat-no" title="statement not covered" >              res.status(401).json({</span>
+                message: 'Unauthorized', err: err,
+              });
+            } else {
+<span class="cstat-no" title="statement not covered" >              return next();</span>
+            }
+          });
+        } else {
+<span class="cstat-no" title="statement not covered" >          return next();</span>
+        }
+      });
+    });
+  },
+&nbsp;
+  rolesAccess: (req, res, next) =&gt; {
+<span class="cstat-no" title="statement not covered" >    rbac.can(req.decoded.role, 'role:create:delete:update:get', (err, can) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (err || !can) {</span>
+<span class="cstat-no" title="statement not covered" >        res.status(401).json({</span>
+          message: 'Unauthorized',
+          err: err,
+        });
+      } else {
+<span class="cstat-no" title="statement not covered" >        return next();</span>
+      }
+    });
+  },
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 27 2016 21:35:18 GMT+0300 (EAT)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

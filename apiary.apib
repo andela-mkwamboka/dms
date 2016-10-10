@@ -3,73 +3,154 @@ HOST: http://api/
 
 # Document Management System (API)
 
-The system manages documents, users and user roles.
+Polls is a simple API allowing consumers to view polls and vote in them.
 
-## Users Endpoints [/users]
+## Users Collection [/users]
 
-### Gets all users [GET]
+### List All Questions [GET]
 
 + Response 200 (application/json)
 
         [
             {
-                  "_id": 1,
-                  "password": "password",
-                  "email": "email@gmail.com",
-                  "name": {
-                          "first": "First Name",
-                          "last": "Last Name"
-                  },
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 2048
+                    }, {
+                        "choice": "Python",
+                        "votes": 1024
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 512
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 256
+                    }
+                ]
             }
         ]
+### Create a New Question [POST]
 
-### Creates a new user. [POST]
-
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
 + Request (application/json)
 
         {
-            "username": “abc”,
-            "name": {
-                "first": “John”,
-                "last": “Snow”
-            },
-            "email": “a@b.c”,
-            "password": “pass”
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
         }
 
 + Response 201 (application/json)
 
+    + Headers
+
+            Location: /questions/2
+
     + Body
 
             {
-                "username": “abc”,
-                "name": {
-                    "first": “John”,
-                    "last": “Snow”
-                },  
-                "email": “a@b.c”,
-                "password": “pass”,
-                "role": "user"
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 0
+                    }
+                ]
             }
+### List All Questions [PUT]
 
-## User [/user/{id}]
-
-+ Parameters
-    + id - A path variable that is required for a valid URL
-
-### Find user. [GET]
 + Response 200 (application/json)
 
-### Update user attributes. [PUT]
+        [
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 2048
+                    }, {
+                        "choice": "Python",
+                        "votes": 1024
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 512
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 256
+                    }
+                ]
+            }
+        ]
+
+### Create a New Question [DELETE]
+
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
+
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
+        }
+
 + Response 201 (application/json)
 
-### Delete user. [DELETE]
-+ Response 410 (application/json)
+    + Headers
 
+            Location: /questions/2
+
+    + Body
+
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 0
+                    }
+                ]
+            }
 
 ## Documents Collection [/documents]
 
-### Gets all documents. [GET]
+### List All Questions [GET]
 
 + Response 200 (application/json)
 
@@ -95,7 +176,12 @@ The system manages documents, users and user roles.
             }
         ]
 
-### Creates a new document instance. [POST]
+### Create a New Question [POST]
+
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
+
 + Request (application/json)
 
         {
@@ -136,31 +222,81 @@ The system manages documents, users and user roles.
                 ]
             }
 
-## Documents [/documents/{id}]
+### List All Questions [PUT]
 
-+ Parameters
-    + id - A path variable that is required for a valid URL
-
-### Find document. [GET]
 + Response 200 (application/json)
 
-### Update document attributes. [PUT]
+        [
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 2048
+                    }, {
+                        "choice": "Python",
+                        "votes": 1024
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 512
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 256
+                    }
+                ]
+            }
+        ]
+
+### Create a New Question [DELETE]
+
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
+
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
+        }
+
 + Response 201 (application/json)
 
-### Delete document. [DELETE]
-+ Response 410 (application/json)
+    + Headers
 
-## User Documents [/user/{id}/documents]
+            Location: /questions/2
 
-+ Parameters
-    + id - A path variable that is required for a valid URL
+    + Body
 
-### Find all documents belonging to the user. [GET]
-+ Response 200 (application/json)
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 0
+                    }
+                ]
+            }
 
 ## Roles Collection [/roles]
 
-### Returns all roles. [GET]
+### List All Questions [GET]
 
 + Response 200 (application/json)
 
@@ -186,7 +322,12 @@ The system manages documents, users and user roles.
             }
         ]
 
-### Create a New role [POST]
+### Create a New Question [POST]
+
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
+
 + Request (application/json)
 
         {
@@ -227,27 +368,184 @@ The system manages documents, users and user roles.
                 ]
             }
 
-## Roles [/roles/{id}]
+### List All Questions [PUT]
 
-+ Parameters
-    + id - A path variable that is required for a valid URL
-
-### Users with a role. [GET]
 + Response 200 (application/json)
 
-### Update user role. [PUT]
+        [
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 2048
+                    }, {
+                        "choice": "Python",
+                        "votes": 1024
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 512
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 256
+                    }
+                ]
+            }
+        ]
+
+### Create a New Question [DELETE]
+
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
+
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
+        }
+
 + Response 201 (application/json)
 
-### Delete role. [DELETE]
-+ Response 410 (application/json)
+    + Headers
 
-## Search Collection [/documents/{?limit,query}]
+            Location: /questions/2
 
-+ Parameters
-    + limit (optional) - Another query variable
-    + query (optional) - Another query variable
+    + Body
 
-### Search for documents with query in name || Get documents with limit. [GET]
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 0
+                    }
+                ]
+            }
+
+## Search Collection [/search]
+
+### List All Questions [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 2048
+                    }, {
+                        "choice": "Python",
+                        "votes": 1024
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 512
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 256
+                    }
+                ]
+            }
+        ]
+
+### Create a New Question [POST]
+
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
+
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 0
+                    }
+                ]
+            }
+
+### List All Questions [PUT]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 2048
+                    }, {
+                        "choice": "Python",
+                        "votes": 1024
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 512
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 256
+                    }
+                ]
+            }
+        ]
+
+### Create a New Question [DELETE]
+
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
+
 + Request (application/json)
 
         {
