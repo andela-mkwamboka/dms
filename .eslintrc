@@ -17,6 +17,9 @@
     no-else-return: 0,
     object-shorthand: 0,
     no-unused-expressions: 0,
+<<<<<<< HEAD
     no-shadow: 0,
+=======
+>>>>>>> staging
   }
 }
