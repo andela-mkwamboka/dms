@@ -32,10 +32,14 @@ module.exports = {
     });
   },
   getAll: (req, res) => {
+    const page = req.query.page;
+    const skipping = (page - 1) * parseInt(req.query.limit, 10);
     Document
     .find()
     .sort({ createdAt: -1 })
+    .skip(skipping)
     .select('-__v')
+    .limit(parseInt(req.query.limit, 10) || 10)
     .exec((err, docs) => {
       /* istanbul ignore next */
       if (err) res.status(404).json(err);
@@ -49,7 +53,6 @@ module.exports = {
     .findById(req.params.doc_id)
     .select('-__v')
     .exec((err, document) => {
-      console.log('err');
       if (err) {
         /* istanbul ignore next */
         res.status(400).json(err);

@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for dms/server/controllers/usersCtrl.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">all files</a> / <a href="index.html">dms/server/controllers/</a> usersCtrl.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">86.57% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>58/67</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">71.05% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>27/38</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">94.64% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>53/56</span>
+      </div>
+      <div class='fl pad1y'>
+        <span class="strong">5 statements, 5 branches</span>
+        <span class="quiet">Ignored</span>  &nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const superSecret = require('./../config/config').sessionSecret;
+&nbsp;
+const User = mongoose.model('Users');
+&nbsp;
+module.exports = {
+  create: (req, res) =&gt; {
+    const user = new User();
+&nbsp;
+    // Set user info from request
+    user.username = req.body.username;
+    user.name.first = req.body.first;
+    user.name.last = req.body.last;
+    user.email = req.body.email;
+    user.password = req.body.password;
+    user.role = req.body.role;
+&nbsp;
+&nbsp;
+    // save user and check for errors
+    user.save((err) =&gt; {
+      if (err) {
+        // Duplicate entry
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (err.code === 11000) {
+          res.status(409).json({
+            message: 'A user with that username already exists.',
+          });
+        }
+        res.status(400).json({
+          message: err,
+        });
+      }
+      const claims = ({
+        _id: user._id,
+        username: req.body.username,
+        role: req.body.role,
+      });
+      // Create token
+      const token = jwt.sign(claims, superSecret, {
+        expiresIn: 60 * 60 * 24, // 24 hours
+      });
+      res.status(200).json({
+        message: 'User saved',
+        token: token,
+      });
+    });
+  },
+  login: (req, res) =&gt; {
+    User
+    .findOne({ username: req.body.username })
+    .exec((err, user) =&gt; {
+      /* istanbul ignore next */
+      <span class="skip-if-branch" title="if path not taken" >I</span>if (err) <span class="cstat-skip" title="statement not covered" >res.status(404).json({ err: err });</span>
+      if (!user) {
+        res.status(404).json({ message: 'User not found.' });
+      } else <span class="missing-if-branch" title="else path not taken" >E</span>if (user) {
+        // Check if password matches
+        const validPassword = user.comparePassword(req.body.password);
+        if (!validPassword) {
+          res.status(400).json({ message: 'Wrong password.' });
+        }
+        const claims = ({
+          _id: user._id,
+          username: req.body.username,
+          role: user.role,
+        });
+        // Create token
+        const token = jwt.sign(claims, superSecret, {
+          expiresIn: 60 * 60 * 24, // 24 hours
+        });
+        res.status(200).json({
+          message: 'Enjoy your token!',
+          token: token,
+        });
+      }
+    });
+  },
+  getAll: (req, res) =&gt; {
+    User
+    .find({})
+    .select('-password -__v')
+    .exec((err, users) =&gt; {
+      /* istanbul ignore next */
+      <span class="skip-if-branch" title="if path not taken" >I</span>if (err) <span class="cstat-skip" title="statement not covered" >res.status(404).json(err);</span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (users.length === 0) {
+<span class="cstat-no" title="statement not covered" >        res.status(404).json({ message: 'No users found' });</span>
+      } else {
+        res.status(200).json({ users: users });
+      }
+    });
+  },
+  getUser: (req, res) =&gt; {
+    User
+    .findById(req.params.user_id)
+    .select('-__v -password')
+    .exec((err, user) =&gt; {
+      /* istanbul ignore next */
+      <span class="skip-if-branch" title="if path not taken" >I</span>if (err) <span class="cstat-skip" title="statement not covered" >res.status(404).json(err);</span>
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!user) {
+<span class="cstat-no" title="statement not covered" >        res.send(404).json({</span>
+          message: 'User not found',
+        });
+      }
+      res.status(200).json(user);
+    });
+  },
+  update: (req, res) =&gt; {
+    User
+     .findById(req.params.user_id)
+     .select('-__v')
+     .exec((err, user) =&gt; {
+       /* istanbul ignore next */
+       <span class="skip-if-branch" title="if path not taken" >I</span>if (err) <span class="cstat-skip" title="statement not covered" >res.status(404).json(err);</span>
+       <span class="missing-if-branch" title="else path not taken" >E</span>if (!user) {
+         res.status(404).json({
+           message: 'User not found',
+         });
+       }
+       // update the users info only if its new
+       <span class="missing-if-branch" title="if path not taken" >I</span>if (req.body.username) <span class="cstat-no" title="statement not covered" >user.username = req.body.username;</span>
+       <span class="missing-if-branch" title="if path not taken" >I</span>if (req.body.password) <span class="cstat-no" title="statement not covered" >user.password = req.body.password;</span>
+       <span class="missing-if-branch" title="if path not taken" >I</span>if (req.body.first) <span class="cstat-no" title="statement not covered" >user.name.first = req.body.first;</span>
+       <span class="missing-if-branch" title="if path not taken" >I</span>if (req.body.last) <span class="cstat-no" title="statement not covered" >user.name.last = req.body.last;</span>
+       <span class="missing-if-branch" title="if path not taken" >I</span>if (req.body.email) <span class="cstat-no" title="statement not covered" >user.name.email = req.body.email;</span>
+       <span class="missing-if-branch" title="if path not taken" >I</span>if (req.body.role) <span class="cstat-no" title="statement not covered" >user.name.role = req.body.role;</span>
+       // Update the user
+       user.save(() =&gt; {
+<span class="cstat-no" title="statement not covered" >         res.status(200).json(user);</span>
+       });
+     });
+  },
+  delete: (req, res) =&gt; {
+    User
+    .findByIdAndRemove(req.params.user_id)
+    .exec((err) =&gt; {
+      /* istanbul ignore next */
+      <span class="skip-if-branch" title="if path not taken" >I</span>if (err) <span class="cstat-skip" title="statement not covered" >res.status(404).json(err);</span>
+      res.status(202).json({
+        message: 'Successfully deleted',
+      });
+    });
+  },
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Sep 28 2016 00:56:01 GMT+0300 (EAT)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>
