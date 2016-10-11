@@ -40,7 +40,7 @@ module.exports = {
       const token = jwt.sign(claims, superSecret, {
         expiresIn: 60 * 60 * 24, // 24 hours
       });
-      res.status(200).json({
+      res.status(201).json({
         message: 'User saved',
         token: token,
       });

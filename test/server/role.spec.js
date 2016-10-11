@@ -31,7 +31,7 @@ describe('ROLE', () => {
       .send(admin)
       .set({ Authorization: 'Bearer ' + token })
       .end((err, res) => {
-        expect(res.status).to.be.equal(200);
+        expect(res.status).to.be.equal(201);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.all.keys('message', 'role');
         expect(res.body.role).to.have.keys('title', '_id', '__v');

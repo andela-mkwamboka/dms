@@ -24,7 +24,7 @@ module.exports = {
           res.status(400).send(error);
         }
       } else {
-        res.status(200).json({
+        res.status(201).json({
           message: 'Document created',
           document: document,
         });

@@ -23,7 +23,7 @@ describe('USER', () => {
       .post('/users')
       .send(user)
       .end((err, res) => {
-        expect(res.status).to.be.equal(200);
+        expect(res.status).to.be.equal(201);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.all.keys('message', 'token');
         done();

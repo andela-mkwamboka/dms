@@ -36,7 +36,7 @@ describe('DOCUMENT', () => {
       .send(doc)
       .set({ Authorization: 'Bearer ' + token })
       .end((err, res) => {
-        expect(res.status).to.be.equal(200);
+        expect(res.status).to.be.equal(201);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.all.keys('message', 'document');
         expect(res.body.document).to.have.keys('createdAt', 'ownerId', 'content', 'title', '_id', 'updatedAt', '__v');
@@ -51,7 +51,7 @@ describe('DOCUMENT', () => {
       .send(doc2)
       .set({ Authorization: 'Bearer ' + token })
       .end((err, res) => {
-        expect(res.status).to.be.equal(200);
+        expect(res.status).to.be.equal(201);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.all.keys('message', 'document');
         expect(res.body.document).to.have.keys('createdAt', 'ownerId', 'content', 'title', '_id', 'updatedAt', '__v');
