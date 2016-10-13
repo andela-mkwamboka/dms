@@ -111,6 +111,11 @@ describe('USER', () => {
       .end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body).to.be.a('object');
+        expect(res.body.users.length).to.be.equal(4);
+        expect(res.body.users[0].username).to.be.equal('john');
+        expect(res.body.users[1].username).to.be.equal('mary');
+        expect(res.body.users[2].username).to.be.equal('Maggie');
+        expect(res.body.users[3].username).to.be.equal('Mona');
         done();
       });
     });
