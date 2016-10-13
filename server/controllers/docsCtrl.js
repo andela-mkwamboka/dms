@@ -68,7 +68,7 @@ module.exports = {
     .exec((err, document) => {
       rbac.can(req.decoded.role, 'doc:update', { Id: req.decoded._id.toString(), ownerId: document.ownerId.toString() }, (err, can) => {
         if (err || !can) {
-          res.status(400).json({
+          res.status(403).json({
             message: 'Not accessible',
           });
         } else {
@@ -91,7 +91,7 @@ module.exports = {
     .exec((err, document) => {
       rbac.can(req.decoded.role, 'doc:delete', { Id: req.decoded._id.toString(), ownerId: document.ownerId.toString() }, (err, can) => {
         if (err || !can) {
-          res.status(400).json({
+          res.status(403).json({
             message: 'Not accessible',
           });
         } else {

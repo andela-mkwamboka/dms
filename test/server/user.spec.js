@@ -154,7 +154,7 @@ describe('USER', () => {
         expect(res.status).to.equal(200);
         expect(res.body).to.be.a('array');
         expect(res.body[0].ownerId).to.equal('57d11f44b0a303c1186279bf');
-        expect(res.body.length).to.equal(2);
+        expect(res.body.length).to.equal(3);
         done();
       });
     });
@@ -243,6 +243,34 @@ describe('USER', () => {
         expect(res.body.message).to.be.equal('Not authorized');
         done();
       });
+    });
+
+    it('/users/<id>: User should not be able to update onother user\'s attributes.', (done) => {
+      chai.request(api)
+        .put('/users/54d11f35b0a303c1112345db')
+        .set({ Authorization: 'Bearer ' + token })
+        .send({
+          name: {
+            first: 'first name',
+            last: 'last name',
+          },
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(403);
+          expect(res.body.message).to.equal('Not accessible');
+          done();
+        });
+    });
+
+    it('/users/<id>: User should not be able to delete another user.', (done) => {
+      chai.request(api)
+        .delete('/users/57d11f44b0a303c1186279bf')
+        .set({ Authorization: 'Bearer ' + token })
+        .end((err, res) => {
+          expect(res.status).to.equal(403);
+          expect(res.body.message).to.equal('Not accessible');
+          done();
+        });
     });
   });
 });
