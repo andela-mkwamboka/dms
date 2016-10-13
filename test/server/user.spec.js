@@ -1,4 +1,4 @@
-// Dependencies
+ // Dependencies
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const api = require('./../../server');
@@ -211,6 +211,33 @@ describe('USER', () => {
           expect(res.body.message).to.equal('Successfully deleted');
           done();
         });
+    });
+  });
+
+  describe('ROLE ACCESS CONTROL', () => {
+    let token;
+    before((done) => {
+      chai.request(api)
+      .post('/users/login')
+      .send({
+        username: 'mary',
+        password: '12345',
+      })
+      .end((err, res) => {
+        token = res.body.token;
+        done();
+      });
+    });
+    it('/users/: Should return authorization error if user is trying to access.', (done) => {
+      chai.request(api)
+      .get('/users')
+      .set({ Authorization: 'Bearer ' + token })
+      .end((err, res) => {
+        expect(res.status).to.equal(403);
+        expect(res.body).to.be.a('object');
+        expect(res.body.message).to.be.equal('Not authorized');
+        done();
+      });
     });
   });
 });

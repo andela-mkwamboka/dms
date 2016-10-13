@@ -81,13 +81,18 @@ module.exports = {
     .find({})
     .select('-password -__v')
     .exec((err, users) => {
-      /* istanbul ignore next */
-      if (err) res.status(404).json(err);
-      if (users.length === 0) {
-        res.status(404).json({ message: 'No users found' });
-      } else {
-        res.status(200).json({ users: users });
-      }
+      rbac.can(req.decoded.role, 'user:get', (err, can) => {
+        if (err || !can) {
+          /* istanbul ignore next */
+          res.status(403).json({ message: 'Not authorized' });
+        } else {
+          if (users.length === 0) {
+            res.status(404).json({ message: 'No users found' });
+          } else {
+            res.status(200).json({ users: users });
+          }
+        }
+      });
     });
   },
   getUser: (req, res) => {
