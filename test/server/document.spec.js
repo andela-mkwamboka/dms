@@ -142,11 +142,24 @@ describe('DOCUMENT', () => {
         .set({ Authorization: 'Bearer ' + token })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body.results).to.be.a('object');
-          expect(res.body.results).to.have.all.keys('_id', 'updatedAt', 'createdAt', 'ownerId', 'content', 'title');
+          expect(res.body.results).to.be.a('array');
+          expect(res.body.results[0]).to.have.all.keys('_id', 'updatedAt', 'createdAt', 'ownerId', 'content', 'title');
           done();
         });
     });
+
+    it('Returns search results according to date searched', (done) => {
+      chai.request(api)
+        .get('/search?date=12/23/15')
+        .set({ Authorization: 'Bearer ' + token })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.results).to.be.a('array');
+          expect(res.body.results.length).to.be.equal(4);
+          done();
+        });
+    });
+
     it('Returns error if query is not found', (done) => {
       chai.request(api)
         .get('/search/monicah')
