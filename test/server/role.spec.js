@@ -31,7 +31,7 @@ describe('ROLE', () => {
       .send(admin)
       .set({ Authorization: 'Bearer ' + token })
       .end((err, res) => {
-        expect(res.status).to.be.equal(200);
+        expect(res.status).to.be.equal(201);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.all.keys('message', 'role');
         expect(res.body.role).to.have.keys('title', '_id', '__v');
@@ -87,6 +87,74 @@ describe('ROLE', () => {
         .end((err, res) => {
           expect(res.status).to.equal(202);
           expect(res.body.message).to.equal('Successfully deleted');
+          done();
+        });
+    });
+  });
+});
+// User role
+
+describe('ROLE ACCESS ERROR', () => {
+  const admin = {
+    title: 'user',
+  };
+  let token;
+  before((done) => {
+    chai.request(api)
+    .post('/users/login')
+    .send({
+      username: 'mary',
+      password: '12345',
+    })
+    .end((err, res) => {
+      token = res.body.token;
+      done();
+    });
+  });
+  describe('POST', () => {
+    it('user should not be able to create role', (done) => {
+      chai.request(api)
+      .post('/roles')
+      .send(admin)
+      .set({ Authorization: 'Bearer ' + token })
+      .end((err, res) => {
+        expect(res.status).to.be.equal(403);
+        expect(res.body.message).to.be.equal('Not accessible');
+        done();
+      });
+    });
+  });
+  describe('GET', () => {
+    it('/roles/: Roles should not be accessible to user', (done) => {
+      chai.request(api)
+        .get('/roles')
+        .set({ Authorization: 'Bearer ' + token })
+        .end((err, res) => {
+          expect(res.status).to.be.equal(403);
+          expect(res.body.message).to.be.equal('Not accessible');
+          done();
+        });
+    });
+
+    it('/roles/<id>: Roles should not be accessible to user', (done) => {
+      chai.request(api)
+        .get('/roles/57d11f35b0a303c1186270ad')
+        .set({ Authorization: 'Bearer ' + token })
+        .end((err, res) => {
+          expect(res.status).to.be.equal(403);
+          expect(res.body.message).to.be.equal('Not accessible');
+          done();
+        });
+    });
+  });
+  describe('DELETE', () => {
+    it('/roles/<id>: Delete role.', (done) => {
+      chai.request(api)
+        .delete('/roles/57d11f35b0a303c1186270ad')
+        .set({ Authorization: 'Bearer ' + token })
+        .end((err, res) => {
+          expect(res.status).to.be.equal(403);
+          expect(res.body.message).to.be.equal('Not accessible');
           done();
         });
     });
