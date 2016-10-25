@@ -218,7 +218,6 @@ describe('USER', () => {
         });
     });
   });
-
   describe('ROLE ACCESS CONTROL', () => {
     let token;
     before((done) => {

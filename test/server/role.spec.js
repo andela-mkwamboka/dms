@@ -92,7 +92,6 @@ describe('ROLE', () => {
     });
   });
 });
-
 // User role
 
 describe('ROLE ACCESS ERROR', () => {
