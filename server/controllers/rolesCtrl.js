@@ -7,7 +7,7 @@ module.exports = {
   create: (req, res) => {
     rbac.can(req.decoded.role, 'role:create', (err, can) => {
       if (err || !can) {
-        res.status(400).json({
+        res.status(403).json({
           message: 'Not accessible',
         });
       } else {
@@ -27,7 +27,7 @@ module.exports = {
               message: err,
             });
           }
-          res.status(200).json({
+          res.status(201).json({
             message: 'Role created',
             role: role,
           });
@@ -36,45 +36,69 @@ module.exports = {
     });
   },
   getAll: (req, res) => {
-    Role
-    .find({})
-    .select('-__v')
-    .exec((err, roles) => {
-      /* istanbul ignore next */
-      if (err) res.status(404).json(err);
-      if (roles.length === 0) {
-        res.status(404).json({ message: 'No roles found' });
+    rbac.can(req.decoded.role, 'role:view', (err, can) => {
+      if (err || !can) {
+        res.status(403).json({
+          message: 'Not accessible',
+        });
       } else {
-        res.status(200).json({ roles: roles });
+        Role
+        .find({})
+        .select('-__v')
+        .exec((err, roles) => {
+          /* istanbul ignore next */
+          if (err) res.status(404).json(err);
+          if (roles.length === 0) {
+            res.status(404).json({ message: 'No roles found' });
+          } else {
+            res.status(200).json({ roles: roles });
+          }
+        });
       }
     });
   },
   getRole: (req, res) => {
-    Role
-    .findById(req.params.role_id)
-    .select('-__v')
-    .exec((err, role) => {
-      if (role) {
-        /* istanbul ignore next */
-        if (err) res.status(404).json(err);
-        res.status(200).json(role);
+    rbac.can(req.decoded.role, 'role:view', (err, can) => {
+      if (err || !can) {
+        res.status(403).json({
+          message: 'Not accessible',
+        });
       } else {
-        res.status(404).json({ message: 'Role doesn\'t exist' });
+        Role
+        .findById(req.params.role_id)
+        .select('-__v')
+        .exec((err, role) => {
+          if (role) {
+            /* istanbul ignore next */
+            if (err) res.status(404).json(err);
+            res.status(200).json(role);
+          } else {
+            res.status(404).json({ message: 'Role doesn\'t exist' });
+          }
+        });
       }
     });
   },
   delete: (req, res) => {
-    Role
-    .findByIdAndRemove(req.params.role_id)
-    .exec((err, role) => {
-      if (role) {
-        /* istanbul ignore next */
-        if (err) res.status(404).json(err);
-        res.status(202).json({
-          message: 'Successfully deleted',
+    rbac.can(req.decoded.role, 'role:delete', (err, can) => {
+      if (err || !can) {
+        res.status(403).json({
+          message: 'Not accessible',
         });
       } else {
-        res.status(404).json({ message: 'Role doesn\'t exist' });
+        Role
+        .findByIdAndRemove(req.params.role_id)
+        .exec((err, role) => {
+          if (role) {
+            /* istanbul ignore next */
+            if (err) res.status(404).json(err);
+            res.status(202).json({
+              message: 'Successfully deleted',
+            });
+          } else {
+            res.status(404).json({ message: 'Role doesn\'t exist' });
+          }
+        });
       }
     });
   },

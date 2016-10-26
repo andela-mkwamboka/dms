@@ -40,7 +40,7 @@ module.exports = {
       const token = jwt.sign(claims, superSecret, {
         expiresIn: 60 * 60 * 24, // 24 hours
       });
-      res.status(200).json({
+      res.status(201).json({
         message: 'User saved',
         token: token,
       });
@@ -81,13 +81,18 @@ module.exports = {
     .find({})
     .select('-password -__v')
     .exec((err, users) => {
-      /* istanbul ignore next */
-      if (err) res.status(404).json(err);
-      if (users.length === 0) {
-        res.status(404).json({ message: 'No users found' });
-      } else {
-        res.status(200).json({ users: users });
-      }
+      rbac.can(req.decoded.role, 'user:get', (err, can) => {
+        if (err || !can) {
+          /* istanbul ignore next */
+          res.status(403).json({ message: 'Not authorized' });
+        } else {
+          if (users.length === 0) {
+            res.status(404).json({ message: 'No users found' });
+          } else {
+            res.status(200).json({ users: users });
+          }
+        }
+      });
     });
   },
   getUser: (req, res) => {
@@ -113,7 +118,7 @@ module.exports = {
        if (users) {
          rbac.can(req.decoded.role, 'user:update', { Id: req.decoded._id.toString(), ownerId: users._id.toString() }, (err, can) => {
            if (err || !can) {
-             res.status(400).json({
+             res.status(403).json({
                message: 'Not accessible',
              });
            } else {
@@ -150,7 +155,7 @@ module.exports = {
     .exec((err, users) => {
       rbac.can(req.decoded.role, 'user:delete', { Id: req.decoded._id.toString(), ownerId: users._id.toString() }, (err, can) => {
         if (err || !can) {
-          res.status(400).json({
+          res.status(403).json({
             message: 'Not accessible',
           });
         } else {
