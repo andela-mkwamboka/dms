@@ -1,0 +1,49 @@
+{
+  "name": "dms",
+  "version": "1.0.0",
+  "description": "The system manages documents, users and user roles.",
+  "main": "server.js",
+  "scripts": {
+    "pretest": "NODE_ENV=test node test/seeder/seed.js",
+    "test": "NODE_ENV=test mocha test/server",
+    "start": "node server.js",
+    "coverage": "istanbul cover _mocha test/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-mkwamboka/dms.git"
+  },
+  "author": "Monicah Kwamboka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andela-mkwamboka/dms/issues"
+  },
+  "homepage": "https://github.com/andela-mkwamboka/dms#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^3.6.0",
+    "eslint-config-airbnb": "^11.0.0",
+    "eslint-config-mocha": "0.0.0",
+    "eslint-config-standard": "^6.0.1",
+    "eslint-plugin-import": "^1.14.0",
+    "eslint-plugin-mocha-only": "0.0.3",
+    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-standard": "^2.0.0",
+    "mocha": "^3.0.2",
+    "mocha-istanbul": "^0.3.0"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.2",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "easy-rbac": "^2.0.1",
+    "express": "^4.14.0",
+    "jsonwebtoken": "^7.1.9",
+    "mongoose": "^4.6.1",
+    "mongoose-fixture": "^0.4.1",
+    "mongoose-seed-plus": "^0.1.2",
+    "mongoose-seeder": "^1.2.1",
+    "rbac2": "^1.0.7"
+  }
+}
